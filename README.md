@@ -1,4 +1,4 @@
-# Password Random Generator
+# Random Password Generator
 Random password generator written in Java.
 
 ## Password Structure
