@@ -2,6 +2,8 @@ package generator;
 
 import java.util.Scanner;
 
+import security.Security_Evaluator;
+
 public class Terminal_Interface {
 
   public Terminal_Interface() throws InvalidInputException {
@@ -41,8 +43,29 @@ public class Terminal_Interface {
 
     // generate password
     var alphabet = new Alphabet(lowercase, uppercase, numbers, symbols);
-    var psswdGenerator = new Generator(alphabet, length);
-    System.out.println("Generated password: " + psswdGenerator.getPassword());
+    var psswdGenerator = new Generator(alphabet);
+    var password = psswdGenerator.getPassword(length);
+
+    // evaluate security
+    var secEval = new Security_Evaluator();
+    int security = secEval.getSecurityValue(password);
+
+    System.out.println("\n");
+    System.out.println("Generated password: " + password);
+    printSecurity(security);
+  }
+
+  private void printSecurity(int sec) {
+    if (0 <= sec && sec <= 4)
+      System.out.println("The password is too weak");
+    else if (4 < sec && sec <= 9)
+      System.out.println("The password is weak");
+    else if (sec == 10)
+      System.out.println("The password is acceptable");
+    else if (sec == 11)
+      System.out.println("The password is strong");
+    else
+      System.out.println("The password is secure");
   }
 
   private boolean parseAns(String ans) throws InvalidInputException {
